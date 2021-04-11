@@ -78,7 +78,7 @@ int main(int argc, const char * argv[])
     while (1) 
     {
 
-        if(ccnt>100||(h1_use==1&&h2_use==1))
+        if(ccnt>100)
             break;
         ccnt++;
 
@@ -254,7 +254,7 @@ int main(int argc, const char * argv[])
                     }
                 }
             }
-            if(remote_ip=="140.115.0.1")
+            else if(remote_ip=="140.115.0.1")
             {
                 if(h2_use==0)
                 {
@@ -301,6 +301,31 @@ int main(int argc, const char * argv[])
                         pcap_perror(handle, "set filter error\n");
                         exit(1);
                     }
+                }
+
+            }
+            else
+            {
+                command = "ip link add GRE3 type gretap remote "+remote_ip+" local 140.113.0.1";
+                system(command.c_str());
+                command = "ip link set GRE3 up";
+                system(command.c_str());
+
+                command ="brctl addif br0 GRE3";
+                system(command.c_str());
+                command ="ip link set br0 up";
+                system(command.c_str());
+                
+                expre=expre+" and src host not "+remote_ip+" and dst host not "+remote_ip;
+                if(-1 == pcap_compile(handle, &fp, expre.c_str(), 1, PCAP_NETMASK_UNKNOWN) )
+                {
+                    cout<<"error"<<endl;
+                    pcap_perror(handle, "pkg_compile compile error\n");
+                    exit(1);
+                }
+                if(-1 == pcap_setfilter(handle, &fp)) {
+                    pcap_perror(handle, "set filter error\n");
+                    exit(1);
                 }
 
             }
