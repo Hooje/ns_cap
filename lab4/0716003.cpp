@@ -69,8 +69,6 @@ int main(int argc, const char * argv[])
         pcap_perror(handle, "pkg_compile compile error\n");
         exit(1);
     }
-    //cout<<33<<endl;
-    //int pcap_setfilter(pcap_t *p, struct bpf_program *fp);
     if(-1 == pcap_setfilter(handle, &fp)) {
         pcap_perror(handle, "set filter error\n");
         exit(1);
@@ -242,6 +240,18 @@ int main(int argc, const char * argv[])
                         system(command.c_str());
                     }
                 
+
+                    expre=expre+" and src host not 140.114.0.1 and dst host not 140.114.0.1";
+                    if(-1 == pcap_compile(handle, &fp, expre.c_str(), 1, PCAP_NETMASK_UNKNOWN) )
+                    {
+                        cout<<"error"<<endl;
+                        pcap_perror(handle, "pkg_compile compile error\n");
+                        exit(1);
+                    }
+                    if(-1 == pcap_setfilter(handle, &fp)) {
+                        pcap_perror(handle, "set filter error\n");
+                        exit(1);
+                    }
                 }
             }
             if(remote_ip=="140.115.0.1")
@@ -279,6 +289,17 @@ int main(int argc, const char * argv[])
                         command ="ip link set br0 up";
                         system(command.c_str());
 
+                    }
+                    expre=expre+" and src host not 140.115.0.1 and dst host not 140.115.0.1";
+                    if(-1 == pcap_compile(handle, &fp, expre.c_str(), 1, PCAP_NETMASK_UNKNOWN) )
+                    {
+                        cout<<"error"<<endl;
+                        pcap_perror(handle, "pkg_compile compile error\n");
+                        exit(1);
+                    }
+                    if(-1 == pcap_setfilter(handle, &fp)) {
+                        pcap_perror(handle, "set filter error\n");
+                        exit(1);
                     }
                 }
 
