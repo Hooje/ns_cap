@@ -6,8 +6,11 @@ ip link set BRG2_d_veth up
 
 dhclient BRG2_t_veth
 
-ip link add GRE type gretap remote 140.113.0.2 local 172.27.0.3 encap fou encap-sport 33333 encap-dport 55555
 ip fou add port 33333 ipproto 47
+ip fou add port 55555 ipproto 47
+
+ip link add GRE type gretap remote 140.113.0.2 local 172.27.0.3  key 1 encap fou encap-sport 33333 encap-dport 55555
+#ip fou add port 33333 ipproto 47
 
 ip link set GRE up
  

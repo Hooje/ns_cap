@@ -69,3 +69,7 @@ sudo ip link set H2_t_veth netns $(sudo docker inspect -f '{{.State.Pid}}' H2)
 sudo iptables -P FORWARD ACCEPT
 
 sudo modprobe fou
+
+#systemctl stop isc-dhcp-server
+#sudo touch /var/lib/dhcp/dhcpd.leases
+#sudo /usr/sbin/dhcpd -4 

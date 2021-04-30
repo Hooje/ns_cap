@@ -5,12 +5,15 @@ ip addr add 140.113.0.2/24 dev BRGr_l_veth
 
 route add -net 140.114.0.0/24 gw 140.113.0.1
 
-ip link add GRE type gretap remote 172.27.0.2  local 140.113.0.2 encap fou encap-sport  55555 encap-dport 33333
-
-ip link add GRE2 type gretap remote 172.27.0.3  local 140.113.0.2 encap fou encap-sport  55555 encap-dport 33333
-
-
+ip fou add port 33333 ipproto 47
 ip fou add port 55555 ipproto 47
+
+ip link add GRE type gretap remote 140.114.0.1  local 140.113.0.2  key 0 encap fou encap-sport  55555 encap-dport 33333
+
+ip link add GRE2 type gretap remote 140.114.0.1  local 140.113.0.2  key 1 encap fou encap-sport  55555 encap-dport 33333
+
+
+
 
 ip link set GRE up
 
