@@ -1,4 +1,5 @@
-
+#udo /usr/sbin/dhcpd -4 
+# if dhcp is up then comment it
 sudo iptables -t nat -A POSTROUTING -s 20.0.0.0/8 -o enp0s3 -j MASQUERADE
 
 sudo ip link add GWr_l_veth type veth peer name BRGr_r_veth

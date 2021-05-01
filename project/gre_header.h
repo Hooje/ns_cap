@@ -9,7 +9,7 @@ struct grehdr {
 #define	GRE_FLAGS_SP	0x1000		/* sequence present */
 #define	GRE_FLAGS_MASK	(GRE_FLAGS_CP|GRE_FLAGS_KP|GRE_FLAGS_SP)
 	uint16_t	gre_proto;	/* protocol type */
-	uint32_t	gre_opts[0];	/* optional fields */
+	uint32_t	gre_opts;	/* optional fields */
 } __packed;
 
 
